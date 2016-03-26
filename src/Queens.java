@@ -28,7 +28,7 @@ public class Queens {
 		}
 		else{ // i is the row, Queen tracked by column (0-7)
 			for (int i = 0; i < gameSize; i++){
-				if (DiagnalIsValid(i, QueenPiece) && rowIsValid(i) && colIsValid(QueenPiece)){
+				if (DiagonalIsValid(i, QueenPiece) && rowIsValid(i) && colIsValid(QueenPiece)){
 					gameBoard[i][QueenPiece] = 1; // 1 will be the queen
 					if (playQueens(QueenPiece + 1)){ // Recursion happens here at next queen
 						return true;
@@ -91,12 +91,12 @@ public class Queens {
 	}
 
 	// CHECK IF DIAGNAL IS VALID
-	private static boolean DiagnalIsValid(int Row, int Column){
+	private static boolean DiagonalIsValid(int Row, int Column){
 		int colTrack = Column-1; // Working by column, working left to right
 		int rowTrackUp = Row-1; // Need to check both up
 		int rowTrackDown = Row+1; // And down
 
-		// CHECK DIAGNAL UP
+		// CHECK DIAGONAL UP
 		while (colTrack >=0 && rowTrackUp >=0){ // 
 			if (gameBoard[rowTrackUp][colTrack] == 1){ // If we hit a queen
 				return false; // Bad
@@ -105,7 +105,7 @@ public class Queens {
 			rowTrackUp--; // Move to next row ^
 		}
 
-		// CHECK DIAGNAL DOWN
+		// CHECK DIAGONAL DOWN
 		colTrack = Column-1; // Reset the column to the column to the left
 		while (colTrack >=0 && rowTrackDown <= (gameSize-1)){
 			if (gameBoard[rowTrackDown][colTrack] == 1){
