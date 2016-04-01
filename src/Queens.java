@@ -4,14 +4,20 @@ import java.util.Arrays;
  */
 public class Queens {
 
-	private static final int gameSize = 30; // SET GAMESIZE
+	// SET GAMESIZE
+	private static final int gameSize = 8; 
+	// Gameboard array
 	private static int[][] gameBoard = new int[gameSize][gameSize];
 
 	// MAIN DRIVER
 	public static void main(String args[]) {
+		// Clear the board
 		clear();
+		// Show empty board
 		showBoard(); 
 		System.out.println();
+		
+		// Call recursive solving algorithm
 		if(!playQueens(0)){
 			System.out.println("No Answer");
 		};
@@ -20,21 +26,21 @@ public class Queens {
 	// RECURSIVE PROGRAM
 	private static boolean playQueens(int QueenPiece){
 
-		// If the column is at 8, it means 0-7 filled
+		// If the queen is at 8, it means 0-7 filled 
 		if (QueenPiece >= gameSize){
 			System.out.println("Solved.");
 			showBoard();
 			return true;
 		}
 		else{ // i is the row, Queen tracked by column (0-7)
-			for (int i = 0; i < gameSize; i++){
-				if (DiagonalIsValid(i, QueenPiece) && rowIsValid(i) && colIsValid(QueenPiece)){
+			for (int i = 0; i < gameSize; i++){ // For all rows of this Queen(Column)
+				if (DiagonalIsValid(i, QueenPiece) && rowIsValid(i) && colIsValid(QueenPiece)){ // If the space is valid
 					gameBoard[i][QueenPiece] = 1; // 1 will be the queen
-					if (playQueens(QueenPiece + 1)){ // Recursion happens here at next queen
-						return true;
+					if (playQueens(QueenPiece + 1)){ // Run this function for the next queen RECURSE
+						return true; // Will return the function true. Not 100% needed, could remove
 					}
 					else{
-						// HERE IS THE BACKTRACKING
+						// HERE IS THE BACKTRACKING IF THE ABOVE FAILS
 						gameBoard[i][QueenPiece]=0;
 					}		
 				}
@@ -46,7 +52,6 @@ public class Queens {
 
 	// DISPLAY BOARD
 	private static void showBoard(){
-		String[][] board = new String[gameSize][gameSize];
 		System.out.println("_________________");
 		for(int i = 0; i< gameSize; i++){
 			for (int k = 0; k<gameSize; k++){
@@ -74,20 +79,20 @@ public class Queens {
 
 	// CHECK IF ROW IS VALID
 	private static boolean rowIsValid(int Row){
-		for (int i = 0; i < gameSize; i++){
-			if (gameBoard[Row][i] == 1){
+		for (int i = 0; i < gameSize; i++){ // For columns of this row
+			if (gameBoard[Row][i] == 1){ // If there's queen false
 				return false;
 			}
 		}
-		return true;    	
+		return true; // else it is valid   	
 	}
 
 	// CHECK IF COLUMN IS VALID
 	private static boolean colIsValid(int Column){
-		for (int i =0;i< gameSize;i++){
-			if(gameBoard[i][Column] ==1) return false;
+		for (int i =0;i< gameSize;i++){ // For all the rows of this column
+			if(gameBoard[i][Column] ==1) return false;  // If there's queen false
 		}
-		return true;
+		return true; // else it is valid
 	}
 
 	// CHECK IF DIAGNAL IS VALID
@@ -99,7 +104,7 @@ public class Queens {
 		// CHECK DIAGONAL UP
 		while (colTrack >=0 && rowTrackUp >=0){ // 
 			if (gameBoard[rowTrackUp][colTrack] == 1){ // If we hit a queen
-				return false; // Bad
+				return false; // send a false
 			}
 			colTrack--; // Move to next column <--
 			rowTrackUp--; // Move to next row ^
@@ -108,7 +113,7 @@ public class Queens {
 		// CHECK DIAGONAL DOWN
 		colTrack = Column-1; // Reset the column to the column to the left
 		while (colTrack >=0 && rowTrackDown <= (gameSize-1)){
-			if (gameBoard[rowTrackDown][colTrack] == 1){
+			if (gameBoard[rowTrackDown][colTrack] == 1){ // If there is a queen
 				return false;
 			}
 			colTrack--; // Move to next column <--
